@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import TimerRow from './TimerRow';
 const SetTimer = () =>{
 
 const [defaultTimeHours, setDefaultTimeHours] = useState('0');
@@ -26,6 +27,9 @@ const setTime  = (text:string, max :number) : string  => {
     if(value > max){
         return max.toString()
     }
+    if(value <0){
+        return '0';
+    }
     return text;
 }
 
@@ -33,12 +37,11 @@ const setTime  = (text:string, max :number) : string  => {
         <View style={styles.container}>
             <Text>Set time:</Text>
             Hours: 
-            <TextInput style={styles.input} value={defaultTimeHours} onChangeText={text => setHours(text)}></TextInput>
+            <TimerRow set={text=> setHours(text)} time = {defaultTimeHours} />
             Minutes:
-            <TextInput style={styles.input} value={defaultTimeMinutes} onChangeText={text => setMinutes(text)}></TextInput>
+            <TimerRow set={text=> setMinutes(text)} time = {defaultTimeMinutes} />
             Seconds:
-            <TextInput style={styles.input} value={defaultTimeSeconds} onChangeText={text => setSeconds(text)}></TextInput>
-
+            <TimerRow set={text=> setSeconds(text)} time = {defaultTimeSeconds} />
         </View>
     )
 
@@ -56,10 +59,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     
-  input:{
-    borderColor: 'red',
-    borderWidth: 2,
-  }
   });
 
   export default SetTimer;
