@@ -1,13 +1,38 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Timer from './components/Timer';
+import { Audio } from 'expo-av';
+import SetTimer from './components/SetTimer';
 
 export default function App() {
+  const [time,setTime]=useState(10);
+ 
+  const timeConfired = false;
+
+  const playSound = async() => {
+    console.log('playing sound');
+    const { sound } = await Audio.Sound.createAsync( require('./assets/1.wav'));
+      sound.playAsync()
+  }
+
+
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+       <TouchableOpacity onPress={playSound}>
+        <View>
+        <Text>play</Text>
+          </View>
+        </TouchableOpacity>
+      <SetTimer />
+      {time > 0  && timeConfired ? <Timer playSound={playSound} setTime={setTime} time={time} /> :null}
       <StatusBar style="auto" />
     </View>
   );
+
+
+  
 }
 
 const styles = StyleSheet.create({
@@ -17,4 +42,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+
 });
