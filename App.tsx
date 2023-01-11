@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-         {time > 0  && timeConfired ? 
+         {timeConfired ? 
       <Timer playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 
       :<></>}
       <SetTimer setTimer={setTimerFunc} />

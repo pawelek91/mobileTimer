@@ -9,18 +9,22 @@ type TimerProps = {
     stopped:boolean;
 }
 const Timer = (props:TimerProps) =>{
-    
+    const [timeElaped, setTimeElapsed] = useState(false);
     const {hours,minutes,seconds} = props.timeInfo;
     useEffect(()=>{
         const interval = setInterval(()=>{
+            if(timeElaped){
+                props.playSound();
+            }
+            
             if(props.stopped){
                 clearInterval(interval);
             }
-            if(props.time>1){
+            
+            if(props.time>0){
                 props.setTime(props.time-1)
             } else{
-                props.setTime(0);
-                props.playSound();
+                setTimeElapsed(true);
             }},1000);
             return () => clearInterval(interval);
         });
