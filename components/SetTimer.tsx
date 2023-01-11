@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import TimerRow from './TimerRow';
-const SetTimer = () =>{
 
-const [defaultTimeHours, setDefaultTimeHours] = useState('0');
-const [defaultTimeMinutes, setDefaultTimeMinutes] = useState('0');
-const [defaultTimeSeconds, setDefaultTimeSeconds] = useState('0');
+interface timerProps  {
+ setTimer : (hours:string,minutes:string,seconds:string) => void;
+}
+const SetTimer = (props: timerProps) =>{
+
+const [timeHours, setTimeHours] = useState('0');
+const [timeMinutes, setTimeMinutes] = useState('0');
+const [timeSeconds, setTimeSeconds] = useState('0');
+
 
 const setHours = (text:string) =>{
     const time = setTime(text,24);
-    setDefaultTimeHours(time);
+    setTimeHours(time);
 }
 
 const setMinutes = (text:string) =>{
     const time = setTime(text,60);
-    setDefaultTimeMinutes(time);
+    setTimeMinutes(time);
 }
 
 const setSeconds = (text:string) =>{
     const time = setTime(text,60);
-    setDefaultTimeSeconds(time);
+    setTimeSeconds(time);
 }
-
+const saveTime = () =>{
+    props.setTimer(timeHours,timeMinutes,timeSeconds);
+}
 const setTime  = (text:string, max :number) : string  => {
     const value = parseInt(text);
     if(value > max){
@@ -36,12 +43,16 @@ const setTime  = (text:string, max :number) : string  => {
     return (
         <View style={styles.container}>
             <Text>Set time:</Text>
-            Hours: 
-            <TimerRow set={text=> setHours(text)} time = {defaultTimeHours} />
-            Minutes:
-            <TimerRow set={text=> setMinutes(text)} time = {defaultTimeMinutes} />
-            Seconds:
-            <TimerRow set={text=> setSeconds(text)} time = {defaultTimeSeconds} />
+            <Text>Hours: </Text>
+            <TimerRow set={text=> setHours(text)} time = {timeHours} />
+            <Text>Minutes:</Text>
+            <TimerRow set={text=> setMinutes(text)} time = {timeMinutes} />
+            <Text>Seconds:</Text>
+            <TimerRow set={text=> setSeconds(text)} time = {timeSeconds} />
+
+            <TouchableOpacity style={styles.setTimeButton} onPress={ ()=>{saveTime()}}>
+                <Text>GO</Text>
+            </TouchableOpacity>
         </View>
     )
 
@@ -53,11 +64,21 @@ const setTime  = (text:string, max :number) : string  => {
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
+    setTimeButton:{
+        color: 'red',
+        borderColor: 'pink',
+        borderWidth:2.5,
+        fontSize:20,
+        borderRadius:15,
+        margin:15,
+        width:50,
+        justifyContent:'center',
+        textAlign:'center'
+    }
     
   });
 

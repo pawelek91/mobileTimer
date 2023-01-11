@@ -1,4 +1,4 @@
-import { TextInput,StyleSheet, TouchableOpacity, View } from "react-native";
+import { TextInput,StyleSheet, TouchableOpacity, View, Text } from "react-native";
 
 const TimerRow = (props:TimerRowProps) =>{
 
@@ -18,11 +18,15 @@ const TimerRow = (props:TimerRowProps) =>{
         <View style={styles.row}>
             
             <TouchableOpacity style={styles.button} onPress={ ()=>{sub(props.time)}}>
+                <Text>
                 -
+                </Text>
             </TouchableOpacity>
             <TextInput style={styles.input} value={props.time} onChangeText={text => props.set(text)}></TextInput>
             <TouchableOpacity style={styles.button} onPress={ ()=>{add(props.time)}}>
+                <Text>
                 +
+                </Text>
             </TouchableOpacity>
             </View>
         </View>
