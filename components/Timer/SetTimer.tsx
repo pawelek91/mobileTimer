@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import TimerRow from './TimerRow';
+import TimerRow from '../Common/TimerRow';
 
 interface timerProps  {
  setTimer : (hours:string,minutes:string,seconds:string) => void;

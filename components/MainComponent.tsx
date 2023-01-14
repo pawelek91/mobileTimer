@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
-import { MainTimer } from './MainTimer';
-import TrainingTimer from './TrainingTimer';
+import { MainTimer } from './Timer/MainTimer';
+import TrainingTimer from './Training/TrainingTimer';
 
 // const MainTimerRoute = () => MainTimer;
 // const TrainingTimerRoute = () => TrainingTimer;

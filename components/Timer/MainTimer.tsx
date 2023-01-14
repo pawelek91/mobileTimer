@@ -4,10 +4,14 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Timer from './Timer';
 import { Audio } from 'expo-av';
 import SetTimer from './SetTimer';
-import { TimeModel } from '../models/TimeModel';
+import { TimeModel } from '../../models/TimeModel';
+import SoundAlamarService from '../../services/SoundAlarmService';
 
-export const MainTimer = () =>{
-
+export const MainTimer = () => {
+  let alarmService:SoundAlamarService;
+  SoundAlamarService.CreateAsync().then(result=>{
+    alarmService = result;
+  })
 
 const initialTimer : TimeModel = {
     hours:0,
@@ -34,13 +38,12 @@ const initialTimer : TimeModel = {
   }
 
   const playSound = async() => {
-    console.log('playing sound');
-    const { sound } = await Audio.Sound.createAsync( require('../assets/1.wav'));
-      sound.playAsync()
+    alarmService.play();
   }
 
   const cancel = () =>{
     setTimeConfimed(false);
+    alarmService.stop();
   }
 
 
