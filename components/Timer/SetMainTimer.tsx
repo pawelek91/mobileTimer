@@ -5,7 +5,7 @@ import TimerRow from '../Common/TimerRow';
 interface timerProps  {
  setTimer : (hours:string,minutes:string,seconds:string) => void;
 }
-const SetTimer = (props: timerProps) =>{
+const SetMainTimer = (props: timerProps) =>{
 
 const [timeHours, setTimeHours] = useState('0');
 const [timeMinutes, setTimeMinutes] = useState('0');
@@ -82,5 +82,5 @@ const styles = StyleSheet.create({
     
   });
 
-  export default SetTimer;
+  export default SetMainTimer;
   

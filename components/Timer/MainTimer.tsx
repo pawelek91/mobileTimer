@@ -1,9 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Timer from './Timer';
-import { Audio } from 'expo-av';
-import SetTimer from './SetTimer';
+import MainTimerAlarm from './MainTimerAlarm';
+import SetMainTimer from './SetMainTimer';
 import { TimeModel } from '../../models/TimeModel';
 import SoundAlamarService from '../../services/SoundAlarmService';
 
@@ -41,19 +39,17 @@ const initialTimer : TimeModel = {
     alarmService.play();
   }
 
-  const cancel = () =>{
+  const cancel = async() =>{
     setTimeConfimed(false);
-    alarmService.stop();
+    await alarmService.stop();
   }
-
-
 
   return (
     <View style={styles.container}>
          {timeConfired ? 
-      <Timer playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 
+      <MainTimerAlarm playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 
       :<></>}
-      <SetTimer setTimer={setTimerFunc} />
+      <SetMainTimer setTimer={setTimerFunc} />
 
       <TouchableOpacity style={styles.cancelButton} onPress={ ()=>{cancel()}}>
                 <Text>cancel</Text>
