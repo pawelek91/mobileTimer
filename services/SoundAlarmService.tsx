@@ -1,8 +1,8 @@
 import { Audio } from 'expo-av';
 class SoundAlamarService {
 
-    //static readonly  defaultSoundPath ='../assets/1.wav';
-    static readonly  defaultSoundPath = require('../assets/1.wav');
+    static readonly defaultSoundPath = require('../assets/1.wav');
+    
     private audioSound:Audio.Sound;
 
    
@@ -11,6 +11,7 @@ class SoundAlamarService {
         const {sound} = await Audio.Sound.createAsync(soundAsset);
         return new SoundAlamarService(sound);
     }
+
     private constructor(sound:Audio.Sound) {
         this.audioSound = sound;
     }

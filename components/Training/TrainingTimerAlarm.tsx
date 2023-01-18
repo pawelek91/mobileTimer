@@ -29,22 +29,22 @@ const TrainingTimerAlarm = (props:TimerProps) =>{
                 }
 
                 if(props.timeForWorkout < 1 && !workoutStop){
-                    //props.playSoundWorkoutEnd();
+                    setWorkoutStop(true);
+                    props.playSoundWorkoutEnd();
                     props.setTimeForRest(props.originalTimeForRest);
                     props.setSeries(props.series-1);
-                    setWorkoutStop(true);
                 }
 
-                if(props.timeForRest <1){
+                if(props.timeForRest <1 && workoutStop){
                     setWorkoutStop(false);
-                    //props.playSoundRestEnd();
+                    props.playSoundRestEnd();
                     props.setTimeForWorkout(props.originalTimeForWorkout);
                 }
 
-                if(!workoutStop){
+                if(!workoutStop && props.timeForWorkout >0){
                     props.setTimeForWorkout(props.timeForWorkout-1);
                 }
-                if(workoutStop){
+                if(workoutStop && props.timeForRest > 0){
                     props.setTimeForRest(props.timeForRest-1);
                 }
                 

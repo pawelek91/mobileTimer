@@ -5,11 +5,19 @@ import SetTimerTraining from "./SetTimerTraining";
 import TrainingTimerAlarm from "./TrainingTimerAlarm";
 
 const TrainingTimer = () =>{
+  const boxingBell2 = require('../../assets/boxingBell2.wav');
+  const boxingBell1 = require('../../assets/boxingBell1.mp3');
+  
 
-    let alarmService:SoundAlamarService;
-    SoundAlamarService.CreateAsync().then(result=>{
-    alarmService = result;
+    let startBoxingAlarmService:SoundAlamarService;
+    SoundAlamarService.CreateAsync(boxingBell1).then(result=>{
+      startBoxingAlarmService = result;
   })
+
+  let restBoxingAlarmService:SoundAlamarService;
+  SoundAlamarService.CreateAsync(boxingBell2).then(result=>{
+    restBoxingAlarmService = result;
+})
   
     const [time,setTime] = useState(0);
     const [timeConfired, setTimeConfimed] = useState(false);
@@ -38,14 +46,18 @@ const TrainingTimer = () =>{
 
 
 
-    const playSound = async() => {
-        alarmService.play();
+    const playSoundRest = async() => {
+      restBoxingAlarmService.play();
       }
+
+    const playSoundStart = async() =>{
+      startBoxingAlarmService.play();
+    }
     
-      const cancel = async() =>{
-        setTimeConfimed(false);
-        await alarmService.stop();
-      }
+      // const cancel = async() =>{
+      //   setTimeConfimed(false);
+      //   await alarmService.stop();
+      // }
     
 
     return (
@@ -58,8 +70,8 @@ const TrainingTimer = () =>{
                 setTimeForRest={setTimeForRest}
                 setTimeForWorkout={setTimeForWorkout}
                 stopped={!timeConfired} 
-                playSoundRestEnd={playSound}
-                playSoundWorkoutEnd={playSound}
+                playSoundRestEnd={playSoundStart}
+                playSoundWorkoutEnd={playSoundRest}
                 series={series}
                 timeForRest={rest}
                 timeForWorkout={workout}
