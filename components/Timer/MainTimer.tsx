@@ -35,6 +35,10 @@ const initialTimer : TimeModel = {
     setTimeConfimed(true);
   }
 
+  const setCancel = async () =>{
+    await cancel();
+  }
+
   const playSound = async() => {
     alarmService.play();
   }
@@ -49,11 +53,8 @@ const initialTimer : TimeModel = {
          {timeConfired ? 
       <MainTimerAlarm playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 
       :<></>}
-      <SetMainTimer setTimer={setTimerFunc} />
+      <SetMainTimer setTimer={setTimerFunc} setCancel={setCancel} />
 
-      <TouchableOpacity style={styles.cancelButton} onPress={ ()=>{cancel()}}>
-                <Text>cancel</Text>
-            </TouchableOpacity>
     </View>
   );
 
@@ -64,15 +65,15 @@ const initialTimer : TimeModel = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    color:'red'
   },
   cancelButton:{
     color: 'red',
     borderColor: 'pink',
     borderWidth:2.5,
-    fontSize:20,
+    fontSize:15,
     borderRadius:15,
     margin:15,
     width:50,

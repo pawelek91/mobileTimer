@@ -19,7 +19,6 @@ const TrainingTimer = () =>{
     restBoxingAlarmService = result;
 })
   
-    const [time,setTime] = useState(0);
     const [timeConfired, setTimeConfimed] = useState(false);
     const [series,setSeries] = useState(1);
     const [rest,setTimeForRest] = useState(0);
@@ -27,20 +26,25 @@ const TrainingTimer = () =>{
     const [originalWorkoutTime, setOriginalWorkoutTime]= useState(0);
     const [originalRestTime, setOriginalRestTime] = useState(0);
 
-    const setTimerFunc = (series: string, minutes:string, seconds:string) =>{
-        const m = parseInt(minutes);
-        const s = parseInt(seconds);
+    const setTimerFunc = (series: string,
+       trainMinutes:string,
+        trainSeconds:string,
+        restMinutes:string,
+        restSeconds:string) =>{
+        const mT = parseInt(trainMinutes);
+        const sT = parseInt(trainSeconds);
+        const mR = parseInt(restMinutes);
+        const sR = parseInt(restSeconds);
+
         const ser = parseInt(series);
 
-        
-        setTime(m*60+s);
 
-        setTimeForRest(m*60+s);
-        setTimeForWorkout(m*60+s);
+        setTimeForRest(mR*60+sR);
+        setTimeForWorkout(mT*60+sT);
         setSeries(ser);
 
-        setOriginalWorkoutTime(m*60+s);
-        setOriginalRestTime(m*60+s);
+        setOriginalWorkoutTime(mT*60+sT);
+        setOriginalRestTime(mR*60+sR);
         setTimeConfimed(true);
     }
 
@@ -88,7 +92,6 @@ export default TrainingTimer;
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
       color: 'red',
       borderColor: 'pink',
       borderWidth:2.5,
-      fontSize:20,
+      fontSize:15,
       borderRadius:15,
       margin:15,
       width:50,

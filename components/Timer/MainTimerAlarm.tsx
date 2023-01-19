@@ -31,8 +31,8 @@ const MainTimerAlarm = (props:TimerProps) =>{
 
     return(
         <View style={styles.container}>
-            <Text>Alarm has been set to {hours} hours, {minutes}, {seconds} seconds</Text>
-            <Text>{props.time}</Text>
+            <Text style={styles.textStyle}>Alarm has been set to {hours} hours, {minutes}, {seconds} seconds</Text>
+            <Text style={styles.textStyle}>{props.time}</Text>
         </View>
     )
 }
@@ -41,8 +41,10 @@ export default MainTimerAlarm;
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
     },
+    textStyle:{
+        color:'red'
+    }
 })  

@@ -7,7 +7,6 @@ class SoundAlamarService {
 
    
     static CreateAsync = async(soundAsset = this.defaultSoundPath)=>{
-        console.log('creating sound')
         const {sound} = await Audio.Sound.createAsync(soundAsset);
         return new SoundAlamarService(sound);
     }

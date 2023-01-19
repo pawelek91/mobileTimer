@@ -18,13 +18,13 @@ const TimerRow = (props:TimerRowProps) =>{
         <View style={styles.row}>
             
             <TouchableOpacity style={styles.button} onPress={ ()=>{sub(props.time)}}>
-                <Text>
+            <Text style={styles.textStyle}>
                 -
                 </Text>
             </TouchableOpacity>
             <TextInput style={styles.input} value={props.time} onChangeText={text => props.set(text)}></TextInput>
             <TouchableOpacity style={styles.button} onPress={ ()=>{add(props.time)}}>
-                <Text>
+                <Text style={styles.textStyle}>
                 +
                 </Text>
             </TouchableOpacity>
@@ -45,27 +45,35 @@ const styles=StyleSheet.create({
         borderColor: 'red',
         borderWidth: 2,
         width:50,
-        textAlign:'center'
+        textAlign:'center',
+        color: 'red',
+        fontSize:30,
     },
     rowRoot:{
-        borderColor: 'pink',
+        borderColor: 'red',
         borderWidth:0.5,
+        borderRadius:15,
     },
     row:{
         flexDirection:'row',
         justifyContent: 'center',
         margin:5,
-    
+    borderRadius:5,
     },
     button:{
         color: 'red',
-        borderColor: 'pink',
+        borderColor: 'red',
+        
         borderWidth:0.5,
-        fontSize:20,
+        fontSize:15,
         borderRadius:5,
         margin:15,
         width:20,
         justifyContent:'center',
         textAlign:'center'
+    },
+    textStyle:{
+        color:'red',
+        fontSize:30
     }
 })

@@ -4,6 +4,7 @@ import TimerRow from '../Common/TimerRow';
 
 interface timerProps  {
  setTimer : (hours:string,minutes:string,seconds:string) => void;
+ setCancel :  () => void;
 }
 const SetMainTimer = (props: timerProps) =>{
 
@@ -42,16 +43,20 @@ const setTime  = (text:string, max :number) : string  => {
 
     return (
         <View style={styles.container}>
-            <Text>Set time:</Text>
-            <Text>Hours: </Text>
+            <Text style={styles.textStyle}>Set time:</Text>
+            <Text style={styles.textStyle}>Hours: </Text>
             <TimerRow set={text=> setHours(text)} time = {timeHours} />
-            <Text>Minutes:</Text>
+            <Text style={styles.textStyle}>Minutes:</Text>
             <TimerRow set={text=> setMinutes(text)} time = {timeMinutes} />
-            <Text>Seconds:</Text>
+            <Text style={styles.textStyle}>Seconds:</Text>
             <TimerRow set={text=> setSeconds(text)} time = {timeSeconds} />
 
             <TouchableOpacity style={styles.setTimeButton} onPress={ ()=>{saveTime()}}>
-                <Text>GO</Text>
+                <Text style={styles.textStyle}>Start</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.cancelButton} onPress={ ()=>{props.setCancel()}}>
+                <Text style={styles.textStyle}>Stop</Text>
             </TouchableOpacity>
         </View>
     )
@@ -64,15 +69,31 @@ const setTime  = (text:string, max :number) : string  => {
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
+      backgroundColor: 'rgba(52, 52, 52, 0.8)',
+      opacity:100,
       alignItems: 'center',
       justifyContent: 'center',
     },
+    textStyle:{
+        color:'red',
+        fontSize:15,
+    },
     setTimeButton:{
         color: 'red',
-        borderColor: 'pink',
+        borderColor: 'red',
         borderWidth:2.5,
-        fontSize:20,
+        fontSize:15,
+        borderRadius:15,
+        margin:15,
+        width:50,
+        justifyContent:'center',
+        textAlign:'center'
+    },
+    cancelButton:{
+        color: 'red',
+        borderColor: 'red',
+        borderWidth:2.5,
+        fontSize:15,
         borderRadius:15,
         margin:15,
         width:50,

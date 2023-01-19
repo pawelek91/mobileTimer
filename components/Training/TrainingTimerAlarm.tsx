@@ -57,9 +57,9 @@ const TrainingTimerAlarm = (props:TimerProps) =>{
 
         return(
             <View style={styles.container}>
-                <Text>Series: {props.series} </Text>
-                <Text>Time for serie left: {props.timeForWorkout} seconds </Text>
-                <Text>Time for rest left: {props.timeForRest} seconds </Text>
+                <Text style={styles.textStyle}>Series: {props.series} </Text>
+                <Text style={styles.textStyle}>Time for serie left: {props.timeForWorkout} seconds </Text>
+                <Text style={styles.textStyle}>Time for rest left: {props.timeForRest} seconds </Text>
             </View>
         )
 }
@@ -68,8 +68,12 @@ export default TrainingTimerAlarm;
 
 const styles = StyleSheet.create({
     container: {
-      backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
+      color:'red'
     },
+    textStyle:{
+        color:'red',
+        fontSize:15
+    }
 })  
