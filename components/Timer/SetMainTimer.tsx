@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import StorageService from '../../services/StorageService';
 import TimerRow from '../Common/TimerRow';
 
 interface timerProps  {
@@ -11,6 +12,24 @@ const SetMainTimer = (props: timerProps) =>{
 const [timeHours, setTimeHours] = useState('0');
 const [timeMinutes, setTimeMinutes] = useState('0');
 const [timeSeconds, setTimeSeconds] = useState('0');
+
+let storageService : StorageService = new StorageService()
+
+useEffect(()=>{
+    storageService.getAlarmClock().then(result=>{
+        if(result != null){
+            const h = result.time.hours as number;
+            const m = result.time.minutes as number;
+            const s = result.time.seconds as number;
+
+            setTimeHours(h.toString());
+            setTimeMinutes(m.toString());
+            setSeconds(s.toString());
+        }
+    })
+},[])
+
+
 
 
 const setHours = (text:string) =>{
@@ -27,16 +46,24 @@ const setSeconds = (text:string) =>{
     const time = setTime(text,60);
     setTimeSeconds(time);
 }
-const saveTime = () =>{
+const saveTime = async() =>{
+    await storageService.setAlarmClock({
+        time:{
+            hours : parseInt(timeHours),
+            minutes: parseInt(timeMinutes),
+            seconds: parseInt(timeSeconds),
+        }
+    })
     props.setTimer(timeHours,timeMinutes,timeSeconds);
 }
 const setTime  = (text:string, max :number) : string  => {
     const value = parseInt(text);
+    if(isNaN(value) || value <0){
+        return '0';
+    }
+
     if(value > max){
         return max.toString()
-    }
-    if(value <0){
-        return '0';
     }
     return text;
 }

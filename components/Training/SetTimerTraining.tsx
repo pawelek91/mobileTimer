@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text,StyleSheet,TouchableOpacity } from "react-native";
+import StorageService from "../../services/StorageService";
 import TimerRow from "../Common/TimerRow";
 
 interface trainingTimerProps  {
@@ -13,13 +14,32 @@ const SetTimerTraining = (props:trainingTimerProps) =>{
     const [restTimeSeconds, setRestTimeSeconds] = useState('0');
     const [seriesCount, setSeriesCount] = useState('1');
 
+    const storageService: StorageService = new StorageService();
+    useEffect(()=>{
+        storageService.getTrainingModel().then(result=>{
+            if(result != null){
+                const workoutMinutes = result.workoutTime.minutes as number;
+                const workoutSeconds = result.workoutTime.seconds as number;
+                const restMinutes = result.restTime.minutes as number;
+                const restSeconds = result.restTime.seconds as number;
+
+                setWorkoutTimeMinutes(workoutMinutes.toString());
+                setWorkoutTimeSeconds(workoutSeconds.toString());
+                setRestTimeMinutes(restMinutes.toString());
+                setRestTimeSeconds(restSeconds.toString());
+                setSeriesCount(result.seriesCount.toString());
+            }
+        })
+    },[])
+
     const setTime  = (text:string, max :number | null = null) : string  => {
         const value = parseInt(text);
+        if(isNaN(value) || value <0){
+            return '0';
+        }
+
         if(max && value > max){
             return max.toString()
-        }
-        if(value <0){
-            return '0';
         }
         return text;
     }
@@ -49,6 +69,17 @@ const SetTimerTraining = (props:trainingTimerProps) =>{
     }
 
     const saveTime = () =>{
+        storageService.setTrainingModel({
+            restTime: {
+                minutes: parseInt(restTimeMinutes),
+                seconds: parseInt(restTimeSeconds)
+            },
+            seriesCount: parseInt(seriesCount),
+            workoutTime:{
+                minutes: parseInt(workoutTimeMinutes),
+                seconds: parseInt(workoutTimeSeconds)
+            }
+        })
         props.set(seriesCount,workoutTimeMinutes,workoutTimeSeconds, restTimeMinutes, restTimeSeconds);
     }
 
