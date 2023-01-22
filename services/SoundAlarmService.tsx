@@ -20,7 +20,7 @@ class SoundAlamarService {
     }
 
     stop = async()=>{
-        await this.audioSound.stopAsync(); 
+        await this.audioSound.pauseAsync(); 
     }
 }
 

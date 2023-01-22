@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from 'react-native';
 import { TimeModel } from "../../models/TimeModel";
+import SoundAlamarService from "../../services/SoundAlarmService";
 type TimerProps = {
     setTime:(val:number)=>void,
     time:number;

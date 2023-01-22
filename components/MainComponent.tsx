@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, StyleSheet, Dimensions, StatusBar, ImageBackground } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import SettingsComponent from './Settings/SettingsComponent';
 import { MainTimer } from './Timer/MainTimer';
 import TrainingTimer from './Training/TrainingTimer';
 
@@ -10,10 +11,13 @@ const MainComponent = () =>{
         index:0,
         routes:[
             {
-                key : 'mainTimerRoute', title: 'BUDZIK'
+                key : 'mainTimerRoute', title: 'Alarm'
             },
             {
-                key: 'traingTimerRoute', title: 'TRENING'
+                key: 'traingTimerRoute', title: 'Training'
+            },
+            {
+              key:'settingsRoute', title:'Settings'
             }
 
         ]
@@ -37,7 +41,8 @@ const MainComponent = () =>{
         renderTabBar={renderTabBar}
          renderScene={SceneMap({
             mainTimerRoute : MainTimer,
-            traingTimerRoute: TrainingTimer
+            traingTimerRoute: TrainingTimer,
+            settingsRoute: SettingsComponent,
         })}
         onIndexChange={index=> setMenuRoute({...menuRoute,index})}
         initialLayout={{ width: Dimensions.get('window').width }}

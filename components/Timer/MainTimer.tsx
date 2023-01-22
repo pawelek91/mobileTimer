@@ -3,13 +3,20 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import MainTimerAlarm from './MainTimerAlarm';
 import SetMainTimer from './SetMainTimer';
 import { TimeModel } from '../../models/TimeModel';
-import SoundAlamarService from '../../services/SoundAlarmService';
+import SoundAlarmService from '../../services/SoundAlarmService';
 
+let alarmService:SoundAlarmService;
 export const MainTimer = () => {
-  let alarmService:SoundAlamarService;
-  SoundAlamarService.CreateAsync().then(result=>{
-    alarmService = result;
+
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(()=>{
+     SoundAlarmService.CreateAsync().then(result => {
+      alarmService = result;
+      setInitialized(true);
+    },[])
   })
+ 
 
 const initialTimer : TimeModel = {
     hours:0,
@@ -31,8 +38,8 @@ const initialTimer : TimeModel = {
       minutes: m,
       seconds: s
     })
+      setTimeConfimed(true);
     
-    setTimeConfimed(true);
   }
 
   const setCancel = async () =>{
@@ -40,15 +47,17 @@ const initialTimer : TimeModel = {
   }
 
   const playSound = async() => {
-    alarmService.play();
+    alarmService?.play();
   }
 
   const cancel = async() =>{
     setTimeConfimed(false);
-    await alarmService.stop();
+    await alarmService?.stop();
   }
 
-  return (
+  return !initialized 
+  ? <></> 
+  : (
     <View style={styles.container}>
          {timeConfired ? 
       <MainTimerAlarm playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 
@@ -57,9 +66,6 @@ const initialTimer : TimeModel = {
 
     </View>
   );
-
-
-  
 }
 
 const styles = StyleSheet.create({

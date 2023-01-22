@@ -6,7 +6,7 @@ class StorageService
 {
     trainingKey = 'TRAINING_CLOCK';
     alarmClockKey = 'ALARM_CLOCK';
-
+    alarmSoundPathKey = 'ALARM_SOUND_PATH'
     setTrainingModel = async (model: TrainingClockModel) =>{
         await AsyncStorage.setItem(this.trainingKey,this.toString(model));
     }
@@ -29,7 +29,6 @@ class StorageService
     }
 
     setAlarmClock = async (model:AlarmClockModel) =>{
-        
         await AsyncStorage.setItem(this.alarmClockKey, this.toString(model));
     }
 
@@ -43,6 +42,14 @@ class StorageService
         }
         const obj:AlarmClockModel = JSON.parse(strVal as string);
         return obj;
+    }
+
+    getClockAlarmPath = async(): Promise<string | null>=>{
+        if(! await this.storageContains(this.alarmSoundPathKey)){
+            return null;
+        }
+        const strVal = await AsyncStorage.getItem(this.alarmSoundPathKey);
+        return strVal;
     }
 
     toString = (model:any):string=>{

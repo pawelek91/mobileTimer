@@ -1,23 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View,Text,StyleSheet } from "react-native"
 import SoundAlamarService from "../../services/SoundAlarmService";
 import SetTimerTraining from "./SetTimerTraining";
 import TrainingTimerAlarm from "./TrainingTimerAlarm";
 
+
+let startBoxingAlarmService:SoundAlamarService;
+let restBoxingAlarmService:SoundAlamarService;
+
 const TrainingTimer = () =>{
   const boxingBell2 = require('../../assets/boxingBell2.wav');
   const boxingBell1 = require('../../assets/boxingBell1.mp3');
-  
 
-    let startBoxingAlarmService:SoundAlamarService;
+  useEffect(()=>{
     SoundAlamarService.CreateAsync(boxingBell1).then(result=>{
       startBoxingAlarmService = result;
-  })
+  },[])
 
-  let restBoxingAlarmService:SoundAlamarService;
+  
   SoundAlamarService.CreateAsync(boxingBell2).then(result=>{
     restBoxingAlarmService = result;
 })
+  },[])
+
   
     const [timeConfired, setTimeConfimed] = useState(false);
     const [series,setSeries] = useState(1);
@@ -51,11 +56,17 @@ const TrainingTimer = () =>{
 
 
     const playSoundRest = async() => {
-      restBoxingAlarmService.play();
+      startBoxingAlarmService.stop().then(()=>{
+        restBoxingAlarmService.play();
+      })
+    
       }
 
     const playSoundStart = async() =>{
-      startBoxingAlarmService.play();
+      restBoxingAlarmService.stop().then(()=>{
+        startBoxingAlarmService.play();
+      })
+      
     }
     
       // const cancel = async() =>{
