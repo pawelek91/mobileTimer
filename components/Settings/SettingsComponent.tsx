@@ -1,14 +1,36 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet,SafeAreaView, StatusBar, Button } from "react-native";
 import * as DocumentPicker from 'expo-document-picker';
 import { DocumentResult } from "expo-document-picker";
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
+import SoundAlarmService from "../../services/SoundAlarmService";
+import { SoundFileModel } from "../../models/SoundFileModel";
 
+let alarmService:SoundAlarmService;
 const SettingsComponent = ()=>{
 
-    const [fileResponse, setFileResponse] = useState(new Array<DocumentResult>);
+    const nullFileModel :SoundFileModel = {
+      file:'',
+      name:''
+    }
+    const [alarmFileResponse, setAlarmFileResponse] = useState(nullFileModel);
+    const [mainTimerFileResponse, setMainTimer] = useState(nullFileModel);
+    const [trainingTimerFileResponse, setTrainingTimer] = useState(nullFileModel);
 
+ 
+
+   const play = (model:SoundFileModel) =>{
+    if(alarmFileResponse == null || alarmFileResponse.file == ''){
+      return;
+    }
+
+    SoundAlarmService.CreateAsync(model.file,false).then(result => {
+      alarmService = result;
+      alarmService.play();
+    })
+   }
+   
     const save = async() =>{
         const perm = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
         if (perm.status != 'granted') {
@@ -18,38 +40,35 @@ const SettingsComponent = ()=>{
 
     const handleDocumentSelection = useCallback(async () => {
         try {
-          const response = await DocumentPicker.getDocumentAsync({});
+          const response = await DocumentPicker.getDocumentAsync({type:['audio/mpeg', 'audio/x-wav']});
           if(response.type != 'cancel'){
-            const x = response.uri;
-            const y = response.file as File;
-            setFileResponse([response]);
+
+            response.name
+            setAlarmFileResponse({ file: response.uri, name:response.name});
           }
           
         } catch (err) {
           console.warn(err);
         }
       }, []);
-      
+
+
     return(
         <View style={styles.container}>
             <Text style={styles.textStyle}>Settings</Text>
 
             <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'dark-content'} />
-      {fileResponse.map((file, index) => {
-        if(file.type != 'cancel')
-        return (
-        
-        <Text
-          key={index.toString()}
-        //   style={styles.uri}
+    
+        {alarmFileResponse && <Text
           numberOfLines={1}
           ellipsizeMode={'middle'}>
-          {file?.uri}
-        </Text>
-      )})}
+            selected file: {alarmFileResponse.name}
+        </Text>}
+      )
       <Button title="Select 📑" onPress={handleDocumentSelection}/>
       <Button title="Save" onPress={save}/>
+      <Button title="Play" onPress={()=>play(alarmFileResponse)} />
     </SafeAreaView>
         </View>
     )
