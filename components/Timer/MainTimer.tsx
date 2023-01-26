@@ -11,7 +11,7 @@ export const MainTimer = () => {
   const [initialized, setInitialized] = useState(false);
 
   useEffect(()=>{
-     SoundAlarmService.CreateAsync().then(result => {
+     SoundAlarmService.CreateAsync(null,false).then(result => {
       alarmService = result;
       setInitialized(true);
     },[])

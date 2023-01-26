@@ -6,13 +6,17 @@ class SoundAlamarService {
     private audioSound:Audio.Sound;
 
    
-    static CreateAsync = async(soundAsset = this.defaultSoundPath)=>{
+    static CreateAsync = async(soundAsset:any, looping:boolean = false) : Promise<SoundAlamarService>=>{
+        if(soundAsset == null){
+            soundAsset = this.defaultSoundPath;
+        }
         const {sound} = await Audio.Sound.createAsync(soundAsset);
-        return new SoundAlamarService(sound);
+        return new SoundAlamarService(sound,looping);
     }
 
-    private constructor(sound:Audio.Sound) {
+    private constructor(sound:Audio.Sound, looping:boolean) {
         this.audioSound = sound;
+        this.audioSound.setIsLoopingAsync(looping);
     }
 
     play = async()=>{
@@ -20,7 +24,7 @@ class SoundAlamarService {
     }
 
     stop = async()=>{
-        await this.audioSound.pauseAsync(); 
+        await this.audioSound.stopAsync(); 
     }
 }
 

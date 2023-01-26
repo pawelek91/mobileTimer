@@ -13,12 +13,14 @@ const TrainingTimer = () =>{
   const boxingBell1 = require('../../assets/boxingBell1.mp3');
 
   useEffect(()=>{
-    SoundAlamarService.CreateAsync(boxingBell1).then(result=>{
-      startBoxingAlarmService = result;
+    SoundAlamarService.CreateAsync(boxingBell1,false).then( result =>{
+      if(result != null){
+        startBoxingAlarmService = result;
+      }
   },[])
 
   
-  SoundAlamarService.CreateAsync(boxingBell2).then(result=>{
+  SoundAlamarService.CreateAsync(boxingBell2,false).then(result=>{
     restBoxingAlarmService = result;
 })
   },[])
