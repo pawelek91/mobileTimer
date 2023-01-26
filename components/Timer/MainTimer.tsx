@@ -14,7 +14,7 @@ export const MainTimer = () => {
      SoundAlarmService.CreateAsync(null,false).then(result => {
       alarmService = result;
       setInitialized(true);
-    },[])
+    })
   })
  
 
