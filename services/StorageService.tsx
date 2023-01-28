@@ -7,6 +7,9 @@ class StorageService
     trainingKey = 'TRAINING_CLOCK';
     alarmClockKey = 'ALARM_CLOCK';
     alarmSoundPathKey = 'ALARM_SOUND_PATH'
+    traingWorkoutAlarmPathKey = 'TRAININGWORKOUTARLARM_FILEPATH';
+    traingRestAlarmPathKey = 'TRAININGRESTARLARM_FILEPATH';
+
     setTrainingModel = async (model: TrainingClockModel) =>{
         await AsyncStorage.setItem(this.trainingKey,this.toString(model));
     }
@@ -50,6 +53,35 @@ class StorageService
         }
         const strVal = await AsyncStorage.getItem(this.alarmSoundPathKey);
         return strVal;
+    }
+
+    setClockAlarmPath = async(path:string) =>{
+        await AsyncStorage.setItem(this.alarmSoundPathKey, path);
+    }
+
+
+    getTrainingWorkoutAlarmPath = async(): Promise<string | null>=>{
+        if(! await this.storageContains(this.traingWorkoutAlarmPathKey)){
+            return null;
+        }
+        const strVal = await AsyncStorage.getItem(this.traingWorkoutAlarmPathKey);
+        return strVal;
+    }
+
+    setTrainingWorkoutAlarmSound = async(path:string) =>{
+        await AsyncStorage.setItem(this.traingWorkoutAlarmPathKey, path);
+    }
+
+    getTrainingRestAlarmPath = async(): Promise<string | null>=>{
+        if(! await this.storageContains(this.traingRestAlarmPathKey)){
+            return null;
+        }
+        const strVal = await AsyncStorage.getItem(this.traingRestAlarmPathKey);
+        return strVal;
+    }
+
+    setTrainigRestAlarmSound = async(path:string) =>{
+        await AsyncStorage.setItem(this.traingRestAlarmPathKey, path);
     }
 
     toString = (model:any):string=>{

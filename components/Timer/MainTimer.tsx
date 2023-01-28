@@ -4,18 +4,23 @@ import MainTimerAlarm from './MainTimerAlarm';
 import SetMainTimer from './SetMainTimer';
 import { TimeModel } from '../../models/TimeModel';
 import SoundAlarmService from '../../services/SoundAlarmService';
+import SoundType from '../../models/SoundType';
+import StorageService from '../../services/StorageService';
 
 let alarmService:SoundAlarmService;
 export const MainTimer = () => {
-
-  const [initialized, setInitialized] = useState(false);
+  const storageService : StorageService = new StorageService();
 
   useEffect(()=>{
-     SoundAlarmService.CreateAsync(null,false).then(result => {
-      alarmService = result;
-      setInitialized(true);
+      storageService.getClockAlarmPath().then(result=>{
+      SoundAlarmService.CreateAsync(SoundType.MainAlarm ,result,true).then(result => {
+        if(result!=null){
+          alarmService = result;
+        }
+        
+      })
     })
-  })
+  },[])
  
 
 const initialTimer : TimeModel = {
@@ -47,17 +52,16 @@ const initialTimer : TimeModel = {
   }
 
   const playSound = async() => {
-    alarmService?.play();
+      alarmService.play();
+    
   }
 
   const cancel = async() =>{
     setTimeConfimed(false);
-    await alarmService?.stop();
+    await alarmService.stop();
   }
 
-  return !initialized 
-  ? <></> 
-  : (
+  return  (
     <View style={styles.container}>
          {timeConfired ? 
       <MainTimerAlarm playSound={playSound} setTime={setTime} time={time} timeInfo={timer} stopped={!timeConfired} /> 

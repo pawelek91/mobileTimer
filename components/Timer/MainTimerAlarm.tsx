@@ -12,11 +12,13 @@ type TimerProps = {
 const MainTimerAlarm = (props:TimerProps) =>{
     const [timeElaped, setTimeElapsed] = useState(false);
     const {hours,minutes,seconds} = props.timeInfo;
-    useEffect(()=>{
-        const interval = setInterval(()=>{
-            if(timeElaped){
+    
+              if(timeElaped){
                 props.playSound();
             }
+    useEffect(()=>{
+        const interval = setInterval(()=>{
+  
             
             if(props.stopped){
                 clearInterval(interval);
