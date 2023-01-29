@@ -21,16 +21,29 @@ const SettingsComponent = () => {
   const [trainingTimerAlarmFileResponse, setTrainingTimerAlarm] = useState(nullFileModel);
 
 
+  let alarmsServices = new Array<SoundAlarmService>();
 
-  const play = (model: SoundFileModel) => {
-    if (alarmFileResponse == null || alarmFileResponse.file == '') {
+  const play = (model: SoundFileModel, type:SoundType) => {
+    if (model == null || model.file == '') {
       return;
     }
 
-    SoundAlarmService.CreateAsync(SoundType.Temp,model.file, false).then(result => {
+    flushAlarm(type);
+
+    SoundAlarmService.CreateAsync(type,model.file, false).then(result => {
+      alarmsServices.push(result);
       alarmService = result;
       alarmService.play();
     })
+  }
+
+  const flushAlarm = (type:SoundType) =>{
+    const services = alarmsServices.filter(x=>x.soundType == type);
+    if(services.length > 0){
+      services.forEach(x=> x.stop());
+      alarmsServices = alarmsServices.filter(x=>x.soundType != type)
+    }
+   
   }
 
   const save = async () => {
@@ -52,17 +65,37 @@ const SettingsComponent = () => {
     }
   }, []);
 
-  const setAlarmFileResponseFunc = (uri: string, name: string) => {
+  const setAlarmFileResponseFunc = async (uri: string, name: string) => {
+    await storageService.setClockAlarmPath(uri);
     setAlarmFileResponse({ file: uri, name: name });
   }
 
-  const setTrainingTimerFileResponseFunc = (uri: string, name: string) => {
+  const setTrainingTimerFileResponseFunc = async (uri: string, name: string) => {
+    await storageService.setTrainingWorkoutAlarmSound(uri);
     setTrainingTimerAlarm({ file: uri, name: name });
   }
 
-  const setTraingRestSoundFileResponse = (uri: string, name: string) => {
+  const setTraingRestSoundFileResponse = async (uri: string, name: string) => {
+    await storageService.setTrainigRestAlarmSound(uri);
     setRestTimerAlarm({ file: uri, name: name });
   }
+
+  const setDefault = async (type:SoundType) =>{
+    switch(type){
+        case SoundType.MainAlarm : 
+          await storageService.setDefaultMainAlarm();
+          setAlarmFileResponse(nullFileModel);
+          break;
+        case SoundType.TrainingRestAlarm: 
+          await storageService.setDefaultTrainingRestAlarm();
+          setRestTimerAlarm(nullFileModel);
+          break;
+        case SoundType.TrainingWorkoutAlarm: 
+          await storageService.setDefaultTrainingWorkoutAlarm();
+          setTrainingTimerAlarm(nullFileModel);
+          break;
+    }
+}
 
   return (
     <View style={styles.container}>
@@ -73,24 +106,27 @@ const SettingsComponent = () => {
         <StatusBar barStyle={'dark-content'} />
 
         <SetSoundComponent
-          play={() => play(alarmFileResponse)}
+          play={() => play(alarmFileResponse,SoundType.MainAlarm)}
           fileName={alarmFileResponse?.name ?? 'default'}
           setFile={() => handleDocumentSelection(setAlarmFileResponseFunc)}
-          alarmType="clock"
+          alarmTypeText="clock"
+          setDefault={()=>setDefault(SoundType.MainAlarm)}
         />
 
         <SetSoundComponent
-          play={() => play(trainingTimerAlarmFileResponse)}
+          play={() => play(trainingTimerAlarmFileResponse,SoundType.TrainingWorkoutAlarm)}
           fileName={trainingTimerAlarmFileResponse?.name ?? 'default'}
           setFile={() => handleDocumentSelection(setTrainingTimerFileResponseFunc)}
-          alarmType="training workout"
+          alarmTypeText="training workout"
+          setDefault={()=>setDefault(SoundType.TrainingWorkoutAlarm)}
         />
 
         <SetSoundComponent
-          play={() => play(restTimerAlarmFileResponse)}
+          play={() => play(restTimerAlarmFileResponse,SoundType.TrainingRestAlarm)}
           fileName={restTimerAlarmFileResponse?.name ?? 'default'}
           setFile={() => handleDocumentSelection(setTraingRestSoundFileResponse)}
-          alarmType="training rest"
+          alarmTypeText="training rest"
+          setDefault={()=>{setDefault(SoundType.TrainingRestAlarm)}}
         />
 
 

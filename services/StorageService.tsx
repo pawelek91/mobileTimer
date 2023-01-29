@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import AlarmClockModel from '../models/AlarmClockModel';
 import TrainingClockModel from '../models/TrainingClockModel';
 
@@ -9,6 +9,18 @@ class StorageService
     alarmSoundPathKey = 'ALARM_SOUND_PATH'
     traingWorkoutAlarmPathKey = 'TRAININGWORKOUTARLARM_FILEPATH';
     traingRestAlarmPathKey = 'TRAININGRESTARLARM_FILEPATH';
+
+    setDefaultTrainingRestAlarm = async () =>{
+        await AsyncStorage.removeItem(this.traingRestAlarmPathKey);
+    }
+
+    setDefaultTrainingWorkoutAlarm = async () =>{
+        await AsyncStorage.removeItem(this.traingWorkoutAlarmPathKey);
+    }
+
+    setDefaultMainAlarm = async () =>{
+        await AsyncStorage.removeItem(this.alarmSoundPathKey);
+    }
 
     setTrainingModel = async (model: TrainingClockModel) =>{
         await AsyncStorage.setItem(this.trainingKey,this.toString(model));

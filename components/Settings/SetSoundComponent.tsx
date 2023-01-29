@@ -1,16 +1,22 @@
 import { Button, View, StyleSheet, Text, TouchableOpacity } from "react-native";
+import SoundType from "../../models/SoundType";
+import StorageService from "../../services/StorageService";
 
 interface Props {
     play: () => void;
     setFile: () => void;
     fileName?: string;
-    alarmType: string;
+    alarmTypeText: string;
+    setDefault: () =>void;
 }
 
 const SetSoundComponent = (props: Props) => {
+
+    const storageService: StorageService = new StorageService();
+   
     return (
         <View style={styles.container}>
-            <Text style={styles.textStyle}>Set sound for {props.alarmType} alarm</Text>
+            <Text style={styles.textStyle}>Set sound for {props.alarmTypeText} alarm</Text>
             <TouchableOpacity style={styles.button} onPress={props.setFile}>
                 <Text style={styles.textStyle}>
                     Select 📑
@@ -19,6 +25,11 @@ const SetSoundComponent = (props: Props) => {
             <TouchableOpacity style={styles.button} onPress={() => props.play()}>
                 <Text style={styles.textStyle}>
                     Play
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={()=>props.setDefault()}>
+                <Text style={styles.textStyle}>
+                    Restore defualt
                 </Text>
             </TouchableOpacity>
             <Text style={styles.textStyle}>Selected filename: {props.fileName} </Text>
