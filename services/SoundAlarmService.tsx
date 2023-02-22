@@ -1,4 +1,4 @@
-import { Audio } from 'expo-av';
+import { Audio,InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import SoundType from '../models/SoundType';
 class SoundAlamarService {
 
@@ -18,6 +18,15 @@ class SoundAlamarService {
             }
             
         }
+        Audio.setAudioModeAsync({
+            allowsRecordingIOS: false,
+            staysActiveInBackground: true,
+            interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+            playsInSilentModeIOS: true,
+            shouldDuckAndroid: true,
+            interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+            playThroughEarpieceAndroid: false
+        })
         const {sound} = await Audio.Sound.createAsync(soundAsset);
         return new SoundAlamarService(sound,looping, type);
     }
