@@ -49,7 +49,8 @@ const styles = StyleSheet.create({
         margin:10
     },
     textStyle: {
-        color: 'red'
+        color: 'red',
+        textAlign:'center'
     },
     button: {
         color: 'red',

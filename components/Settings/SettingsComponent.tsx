@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
   },
   textStyle: {
-    color: 'red'
+    color: 'red',
+    textAlign:'center'
   }
 })  

@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
     textStyle:{
         color:'red',
         fontSize:15,
+        textAlign:'center'
     },
     setTimeButton:{
         color: 'red',

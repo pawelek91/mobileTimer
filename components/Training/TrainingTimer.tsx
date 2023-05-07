@@ -82,7 +82,6 @@ const TrainingTimer = () => {
 
   return (
     <View style={styles.container}>
-      <Text>
         <SetTimerTraining set={setTimerFunc} />
         {timeConfired ?
           <TrainingTimerAlarm
@@ -98,7 +97,6 @@ const TrainingTimer = () => {
             originalTimeForRest={originalRestTime}
             originalTimeForWorkout={originalWorkoutTime}
           /> : null}
-      </Text>
     </View>
   )
 }

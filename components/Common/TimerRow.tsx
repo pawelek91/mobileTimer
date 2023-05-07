@@ -65,15 +65,17 @@ const styles=StyleSheet.create({
         borderColor: 'red',
         
         borderWidth:0.5,
-        fontSize:15,
+        fontSize:5,
         borderRadius:5,
-        margin:15,
+        margin:5,
         width:20,
         justifyContent:'center',
         textAlign:'center'
     },
     textStyle:{
         color:'red',
-        fontSize:30
+        alignContent:'center',
+        textAlign:'center',
+        fontSize:20
     }
 })

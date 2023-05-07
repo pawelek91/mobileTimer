@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Budzik",
-    "slug": "Budzik",
+    "name": "BoxingInterval",
+    "slug": "BoxingInterval",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/boxing-bag.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/boxing-bag.png",
       "resizeMode": "contain"
     },
     "updates": {
@@ -21,11 +21,17 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png"
-      }
+        "foregroundImage": "./assets/boxing-bag.png"
+      },
+      "package": "traininginterval.pawel.priv"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/boxing-bag.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "eb9af19b-7a7a-4504-a9c4-63a31d26197e"
+      }
     }
   }
 }

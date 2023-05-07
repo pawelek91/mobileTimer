@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     },
     textStyle:{
         color:'red',
-        fontSize:15
+        fontSize:15,
+        justifyContent: 'center',
     }
 })  

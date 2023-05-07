@@ -68,6 +68,10 @@ const SetTimerTraining = (props:trainingTimerProps) =>{
         setRestTimeSeconds(time);
     }
 
+    const stopTraining = () =>{
+        props.set(0,0,0, 0, 0);
+    }
+
     const saveTime = () =>{
         storageService.setTrainingModel({
             restTime: {
@@ -105,8 +109,13 @@ const SetTimerTraining = (props:trainingTimerProps) =>{
                 </View>
             </View>
             <TouchableOpacity style={styles.setTimeButton} onPress={ ()=>{saveTime()}}>
-                    <Text>Start</Text>
-                </TouchableOpacity>
+                    <Text style={styles.textStyle}>Start</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.setTimeButton} onPress={ ()=>{stopTraining()}}>
+                <Text style={styles.textStyle}>Stop</Text>
+            </TouchableOpacity>
+
         </View>)
 }
 
@@ -132,9 +141,9 @@ const styles = StyleSheet.create({
         color: 'red',
         borderColor: 'red',
         borderWidth:2.5,
-        fontSize:15,
+        fontSize:12,
         borderRadius:15,
-        margin:15,
+        margin:5,
         width:50,
         justifyContent:'center',
         textAlign:'center'
@@ -142,6 +151,8 @@ const styles = StyleSheet.create({
     textStyle:{
         color:'red',
         fontSize:15,
+        justifyContent:'center',
+        textAlign:'center'
     }
     
   });
